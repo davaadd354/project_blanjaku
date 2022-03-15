@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use  Illuminate\Support\Facades\File;
+use  Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     /**
@@ -23,27 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $curl = curl_init();
-
-        // curl_setopt_array($curl, array(
-        //   CURLOPT_URL => 'https://api.binderbyte.com/wilayah/provinsi?api_key=fce0a9f9b61d712ad7330dd86bb2b7830ae9612c31495c8128f6f77b34d85a1f',
-        //   CURLOPT_RETURNTRANSFER => true,
-        //   CURLOPT_ENCODING => '',
-        //   CURLOPT_MAXREDIRS => 10,
-        //   CURLOPT_TIMEOUT => 0,
-        //   CURLOPT_FOLLOWLOCATION => true,
-        //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //   CURLOPT_CUSTOMREQUEST => 'GET',
-        // ));
-
-        // $response = curl_exec($curl);
-
-        // curl_close($curl);
-        
-        // $data =  json_decode($response,TRUE);
-        // dd($data);
-
-    
-        return view('home');
+       $home_slider = DB::table('home_slider')->where('status',1)->get();
+        $kategori = DB::table('kategori_produk')->get();
+        return view('home',compact('home_slider','kategori'));
     }
 }

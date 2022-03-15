@@ -35,7 +35,7 @@
                     @if(count($varian) == 0)
                     <input required type="number" class="form-control" name="stok" id="stok" value="{{$produk->stok}}">
                     @else
-                    <input disabled type="number" class="form-control" name="stok" id="stok" value="{{$produk->stok}}">
+                    <input required type="number" class="form-control" name="stok" id="stok" value="{{$produk->stok}}">
                     @endif
                 </div>
             </div>
