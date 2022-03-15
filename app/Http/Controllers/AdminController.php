@@ -410,10 +410,9 @@ class AdminController extends Controller
             'harga_normal' => $harga_normal,
             'harga_coret' => $harga_coret,
             'deskripsi' => $deskripsi,
-            'berat' => $berat,
-            'status_variasi_produk' => 0
+            'berat' => $berat
         ];
-       
+        DB::table('produk')->where('id_produk',$id_produk)->update($data_produk);
         if($gambar != null){
             foreach($gambar as $g){
                 $nama_gambar = rand().'.'.$g->getClientOriginalName();
@@ -514,6 +513,9 @@ class AdminController extends Controller
         DB::table('gambar_produk')->where('id_gambar',$id_gambar)->delete();
 
         $gambar = DB::table('gambar_produk')->where('produk_id',$id_produk)->get();
+        
+
+
         return view('admin.produk.tampil_gambar_produk',compact('gambar'));
     }
 }

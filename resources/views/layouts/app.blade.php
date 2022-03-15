@@ -32,12 +32,17 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    
                     <ul class="navbar-nav mr-auto">
-
+                    
                     </ul>
-
+                         <input type="text" class="form-control" name="keyword" style="width:50%;">  
+                        <button class="btn btn-primary ml-2">cari</button>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                    @if(Auth::user())
+                    <img src="https://img.icons8.com/external-anggara-glyph-anggara-putra/32/000000/external-cart-user-interface-anggara-basic-outline-anggara-putra-2.png"/>
+                    @endif
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
