@@ -56,6 +56,15 @@ Route::group(['middleware' => ['auth','admin']], function () {
 
   //Kategori Produk
   Route::get('kategori_produk/{nama}/{id}','ProdukController@kategori_produk')->name('kategori_produk');
+  Route::post('filter_produk_kategori','ProdukController@filter_produk_kategori')->name('filter_produk_kategori');
+
+  //Daftar Produk
+  Route::get('daftar_produk/{keyword?}','ProdukController@daftar_produk')->name('daftar_produk');
+  Route::post('filter_produk','ProdukController@filter_produk')->name('filter_produk');
+
+  //Detail Produk
+  Route::get('detail_produk/{id}','ProdukController@detail_produk')->name('detail_produk');
+  Route::post('tampil_gambar_utama','ProdukController@tampil_gambar_utama')->name('tampil_gambar_utama');
 // Route::get('/posts', 'PostsController@index');
 // Route::post('/post/store', 'PostsController@store');
 // Route::get('/posts/{id?}', 'PostsController@show');
