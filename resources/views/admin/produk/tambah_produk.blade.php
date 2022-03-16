@@ -12,6 +12,7 @@
                     </div>
                 </div>
                 <div class="mb-5">
+                    <div class="form-group">
                     <label>Kategori</label>
                     <select required class="form-select" name="kategori">
                         <option>Pilih...</option>
@@ -19,6 +20,7 @@
                         <option value="{{$k->id_kategori}}">{{$k->nama_kategori}}</option>
                         @endforeach
                     </select>
+                    </div>
                 </div>
         </div>
     </div>

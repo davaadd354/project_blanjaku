@@ -36,8 +36,8 @@
                     <ul class="navbar-nav mr-auto">
                     
                     </ul>
-                         <input type="text" class="form-control" name="keyword" style="width:50%;">  
-                        <button class="btn btn-primary ml-2">cari</button>
+                         <input type="text" id="keyword" onkeyup="keyword_cek()" class="form-control" name="keyword" style="width:50%;">  
+                        <a href="{{url('/daftar_produk')}}" id="tombol_cari" class="btn btn-primary ml-2">cari</a>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                     @if(Auth::user())
@@ -81,5 +81,15 @@
             @yield('content')
         </main>
     </div>
+    <script>
+    function cari_produk(){
+          var data = document.getElementById('keyword').value;
+            alert(data);
+        }
+    function keyword_cek(){
+        var data = document.getElementById('keyword').value;
+        document.getElementById('tombol_cari').href="{{url('daftar_produk')}}"+'/'+ data;
+    }
+    </script>
 </body>
 </html>

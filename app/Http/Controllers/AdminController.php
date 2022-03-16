@@ -7,6 +7,7 @@ use  DataTables;
 use  Illuminate\Support\Facades\File;
 use  Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Image;
 
 class AdminController extends Controller
 {
@@ -114,7 +115,10 @@ class AdminController extends Controller
         $nama = $request->nama;
         $gambar = $request->file('gambar_kategori');
         $nama_gambar = rand().'.'.$gambar->getClientOriginalName();
-        $gambar->move('gambar_kategori',$nama_gambar);
+        //$gambar->move('gambar_kategori',$nama_gambar);
+
+        $gbr = \Image::make($gambar);
+        $gbr->resize(400,400)->save(public_path('gambar_kategori/'.$nama_gambar));
 
         DB::table('kategori_produk')->insert([
             'nama_kategori' => $nama,
@@ -153,7 +157,9 @@ class AdminController extends Controller
              //Hapus file gambar Lama
             File::delete('gambar_kategori/'.$kategori->gambar);
             $nama_gambar = rand().'.'.$gambar->getClientOriginalName();
-            $gambar->move('gambar_kategori',$nama_gambar);
+            //$gambar->move('gambar_kategori',$nama_gambar);
+                $gbr = \Image::make($gambar);
+                $gbr->resize(400,400)->save(public_path('gambar_produk/'.$nama_gambar));
         }
         
         $data = [
@@ -204,7 +210,11 @@ class AdminController extends Controller
 
         foreach($gambar as $g){
             $nama_gambar = rand().'.'.$g->getClientOriginalName();
-            $g->move('gambar_produk',$nama_gambar);
+            $gbr_asli = \Image::make($g);
+            $gbr_asli->save(public_path('gambar_produk/gbr_asli/'.$nama_gambar));
+
+            $gbr = \Image::make($g);
+            $gbr->resize(400,400)->save(public_path('gambar_produk/'.$nama_gambar));
             DB::table('gambar_produk')->insert([
                 'user_id' => Auth::user()->id,
                 'produk_id' => $input_produk,
@@ -415,8 +425,13 @@ class AdminController extends Controller
         DB::table('produk')->where('id_produk',$id_produk)->update($data_produk);
         if($gambar != null){
             foreach($gambar as $g){
-                $nama_gambar = rand().'.'.$g->getClientOriginalName();
-                $g->move('gambar_produk',$nama_gambar);
+                $nama_gambar =  rand().'.'.$g->getClientOriginalName();
+                $gbr_asli = \Image::make($g);
+                $gbr_asli->save(public_path('gambar_produk/gbr_asli/'.$nama_gambar));
+
+                $gbr = \Image::make($g);
+                $gbr->resize(400,400)->save(public_path('gambar_produk/'.$nama_gambar));
+               
                 DB::table('gambar_produk')->insert([
                     'user_id' => Auth::user()->id,
                     'produk_id' => $id_produk,
@@ -509,6 +524,7 @@ class AdminController extends Controller
 
         //Hapus file gambar
         File::delete('gambar_produk/'.$hapus->nama_gambar);
+        File::delete('gambar_produk/gbr_asli/'.$hapus->nama_gambar);
         //Hapus Database Slider
         DB::table('gambar_produk')->where('id_gambar',$id_gambar)->delete();
 

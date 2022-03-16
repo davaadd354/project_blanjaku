@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <style>
     .ellipsis {
             white-space: nowrap;
@@ -16,6 +17,13 @@
         <div class="col-md-3">
         <img width="18px" src="https://img.icons8.com/ios-filled/50/000000/filter--v1.png"/><span><b>Filter Produk</b></span>
         <br><br>
+        <span><b>Kategori</b></span><br>
+        <select class="form-control" id="kategori" name="kategori">
+            <option>Pilih...</option>
+                @foreach($kategori as $k)
+                    <option value="{{$k->id_kategori}}">{{$k->nama_kategori}}</option>
+                @endforeach
+        </select><br><br>
         <span><b>Batas Harga</b></span><br>
         <label for="harga_min">Harga Min</label>
         <input type="number" name="harga_min" class="form-control" id="harga_min">
@@ -35,7 +43,7 @@
         </div>
         <div class="col-md-9" id="produk">
             <div class="row justify-content-center">
-                @foreach($produk_kategori as $p)
+                @foreach($produk as $p)
                 <?php 
                 $gambar = \DB::table('gambar_produk')->where('produk_id',$p->id_produk)->get();
                 $produk_varian = \DB::table('produk_varian')->where('produk_id',$p->id_produk)->get();
@@ -59,11 +67,12 @@
                                 </div>
                                 <span>{{"Rp " . number_format($p->harga_coret,2,',','.')}};</span><br>
                                 <span>0 Terjual</span><br>
-                                <a href="#" class="btn btn-primary mr-2">lihat</a><button class="btn btn-success"><img width="24px" src="https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-cart-call-to-action-bearicons-glyph-bearicons.png"/></button>
+                                <a href="{{url('detail_produk/'.$p->id_produk)}}" class="btn btn-primary mr-2">lihat</a><button class="btn btn-success"><img width="24px" src="https://img.icons8.com/external-bearicons-glyph-bearicons/64/000000/external-cart-call-to-action-bearicons-glyph-bearicons.png"/></button>
                             </div>
                         </div>
                     </div>
                 </a>
+                   
                 @endforeach
             </div>
         </div>
@@ -73,14 +82,14 @@
     function filter_produk(){
        var harga_min = $('#harga_min').val();
        var harga_max = $('#harga_max').val();
-       var id_kategori = '{{$id_kategori}}';
+       var kategori = $('#kategori').val();
        var token = '{{ csrf_token() }}';
-                var my_url = "{{url('/filter_produk_kategori')}}";
+                var my_url = "{{url('/filter_produk')}}";
                 var formData = {
                     '_token': token,
-                    'id_kategori': id_kategori,
                     'harga_min' : harga_min,
-                    'harga_max' : harga_max
+                    'harga_max' : harga_max,
+                    'id_kategori' : kategori
                 };
                 $.ajax({
                     method: 'POST',
@@ -95,4 +104,5 @@
     }
    
 </script>
+
 @endsection
