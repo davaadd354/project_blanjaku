@@ -84,7 +84,7 @@
         <div class="mb-3">
                 <div id="gambar_produk">
                     @foreach($gambar as $g)
-                        <img src="{{asset('gambar_produk/'.$g->nama_gambar)}}" alt="{{$g->nama_gambar}}" width="100px" class="mb-2 mr-2">
+                        <img class="data_gambar"  src="{{asset('gambar_produk/'.$g->nama_gambar)}}" alt="{{$g->nama_gambar}}" width="100px" class="mb-2 mr-2">
                         <img onclick="hapus_gambar('{{$g->id_gambar}}')" src="https://img.icons8.com/material-rounded/24/fa314a/filled-trash.png"/>
                     @endforeach
                 </div>
@@ -143,7 +143,7 @@
                     <span id="tambah_varian_produk" onclick="tambah_varian_produk()" class="btn btn-success">tambah <i class="fas fa-plus-circle"></i></span>
                     @if(count($varian) > 0)
                         @foreach($varian as $v)
-                            <div class="btn btn-info">{{$v->nama_varian}} <span class="ml-2" onclick="hapus_varian('{{$v->id_varian}}')"><i class="fa fa-window-close" aria-hidden="true"></i></span></div>
+                            <div class="btn btn-info varian_name">{{$v->nama_varian}} <span class="ml-2" onclick="hapus_varian('{{$v->id_varian}}')"><i class="fa fa-window-close" aria-hidden="true"></i></span></div>
                         @endforeach
                     @endif
                 </div>
@@ -156,7 +156,7 @@
                             <span id="tambah_sub_varian" onclick="tambah_sub_varian()" class="btn btn-success">tambah <i class="fas fa-plus-circle"></i></span>
                             @if(count($sub_varian) > 0)
                                 @foreach($sub_varian as $sv)
-                                    <div class="btn btn-info">{{$sv->nama_sub_varian}} <span class="ml-2" onclick="hapus_sub_varian('{{$sv->id_sub_varian}}')"><i class="fa fa-window-close" aria-hidden="true"></i></span></div>
+                                    <div class="btn btn-info sub_varian_name">{{$sv->nama_sub_varian}} <span class="ml-2" onclick="hapus_sub_varian('{{$sv->id_sub_varian}}')"><i class="fa fa-window-close" aria-hidden="true"></i></span></div>
                                 @endforeach
                             @endif
                         @else
@@ -270,7 +270,11 @@
 
     function tambah_varian_produk(){
         //$('#varian_produk').hide();
-        $('#varian_produk').html(`
+        var data_varian = document.getElementsByClassName('varian_name').length;
+        if(data_varian >= 5){
+            alert('varian produk maksimal 5');
+        }else{
+            $('#varian_produk').html(`
             <div class="row">
                 <div class="col-md-9">
                     <div class="mb-3">
@@ -284,10 +288,16 @@
                 </div>
             </div>
         `);
+        }
+       
     }
 
     function tambah_sub_varian(){
-        $('#sub_varian_produk').html(`
+        var data_sub_varian = document.getElementsByClassName('sub_varian_name').length;
+        if(data_sub_varian >= 5){
+            alert(' sub varian tidak boleh lebih dari 5');
+        }else{
+            $('#sub_varian_produk').html(`
         <div class="row">
                 <div class="col-md-9">
                     <div class="mb-3">
@@ -301,6 +311,8 @@
                 </div>
             </div>
         `);
+        }
+       
     }
 
   
@@ -417,7 +429,11 @@
     }
 
     function hapus_gambar(id_gambar){
-        konfirmasi = confirm('Kamu yakin menghapus gambar ini?');
+        var jumlah_gambar = document.getElementsByClassName('data_gambar').length;
+        if(jumlah_gambar <= 1){
+            alert('maaf gambar tidak bisa dihapus ');
+        }else{
+            konfirmasi = confirm('Kamu yakin menghapus gambar ini?');
         if(konfirmasi == true){
             var token = '{{ csrf_token() }}';
             var id_produk = '{{$produk->id_produk}}';
@@ -437,7 +453,10 @@
                     }
                 });
         }
+        }
+       
     }
+
 </script>
 
 
