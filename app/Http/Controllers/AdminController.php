@@ -159,7 +159,7 @@ class AdminController extends Controller
             $nama_gambar = rand().'.'.$gambar->getClientOriginalName();
             //$gambar->move('gambar_kategori',$nama_gambar);
                 $gbr = \Image::make($gambar);
-                $gbr->resize(400,400)->save(public_path('gambar_produk/'.$nama_gambar));
+                $gbr->resize(400,400)->save(public_path('gambar_kategori/'.$nama_gambar));
         }
         
         $data = [
@@ -207,6 +207,16 @@ class AdminController extends Controller
         ];
 
         $input_produk = DB::table('produk')->insertGetId($data);
+
+        // $data_varian = [
+        //     'user_id' => Auth::user()->id,
+        //     'produk_id' => $input_produk,
+        //     'harga_normal' => $harga_normal,
+        //     'harga_coret' => $harga_coret,
+        //     'stok' => $stok,
+        // ];
+
+        //DB::table('produk_varian')->insert($data_varian);
 
         foreach($gambar as $g){
             $nama_gambar = rand().'.'.$g->getClientOriginalName();
@@ -505,11 +515,30 @@ class AdminController extends Controller
         $produk = DB::table('produk')->where('id_produk',$id_produk)->first();
         $varian = DB::table('varian')->where('produk_id',$id_produk)->get();
 
+        if(count($produk_varian) == 0){
+            foreach($varian as $v){
+                DB::table('produk_varian')->insert([
+                    'user_id' => $produk->user_id,
+                    'produk_id' => $produk->id_produk,
+                    'varian_id' => $v->id_varian,
+                    'harga_normal' => $produk->harga_normal,
+                    'harga_coret' => $produk->harga_coret,
+                    'stok' => 0,
+                    'sub_varian_id' => 0
+                ]);
+            }
+        }
+
+        $produk_varian_new = DB::table('produk_varian')
+                        ->leftJoin('varian','produk_varian.varian_id','varian.id_varian')
+                        ->leftJoin('sub_varian','produk_varian.sub_varian_id','sub_varian.id_sub_varian') 
+                        ->where('produk_varian.produk_id',$id_produk)
+                        ->get();
         $data = [
             'produk' => $produk,
             'varian' => $varian,
             'sub_varian' => $sub_varian,
-            'produk_varian' => $produk_varian
+            'produk_varian' => $produk_varian_new
         ];
 
         return view('admin.produk.tampil_varian_produk',$data);

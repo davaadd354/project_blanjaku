@@ -35,13 +35,16 @@
                     
                     <ul class="navbar-nav mr-auto">
                     
-                    </ul>
+                </ul>
+
                          <input type="text" id="keyword" onkeyup="keyword_cek()" class="form-control" name="keyword" style="width:50%;">  
                         <a href="{{url('/daftar_produk')}}" id="tombol_cari" class="btn btn-primary ml-2">cari</a>
+
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                     @if(Auth::user())
-                    <img src="https://img.icons8.com/external-anggara-glyph-anggara-putra/32/000000/external-cart-user-interface-anggara-basic-outline-anggara-putra-2.png"/>
+                    <a href="{{url('keranjang_belanja')}}"><img style="width: 24px;height:24px;" class="mt-2" src="https://img.icons8.com/external-anggara-glyph-anggara-putra/32/000000/external-cart-user-interface-anggara-basic-outline-anggara-putra-2.png"/></a>
                     @endif
                         <!-- Authentication Links -->
                         @guest
@@ -60,6 +63,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ url('akun_saya') }}">
+                                       Akun Saya
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

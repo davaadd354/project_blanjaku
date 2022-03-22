@@ -66,31 +66,23 @@
     $('#tombol_tampil').html(`
     <form action="{{url('input_tambah_produk_keranjang')}}" method="post" enctype="multipart/form-data">
         {{csrf_field()}}
+        <input required type="number" value="{{$produk->id_produk}}" name="produk_id" hidden>
+        <input required type="number" value="{{$produk->user_id}}" name="toko_id" hidden>
         @if(count($produk_varian) != 0)
-            <div class="from-group">
+            <div id="varian" class="from-group">
                 <label><b>{{$produk->label_varian}}</b></label><br>
                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                     @foreach($varian as $v)
                     <div class="mr-4">
-                        <input required type="radio" class="btn-check" name="varian" value="{{$v->id_varian}}" id="{{$v->id_varian}}" autocomplete="off">
+                        <input required type="radio" onclick="cek_sub_varian({{$v->id_varian}})" class="btn-check" name="varian_id" value="{{$v->id_varian}}" id="{{$v->id_varian}}" autocomplete="off">
                         <label class="btn btn-outline-primary" for="{{$v->id_varian}}">{{$v->nama_varian}}</label>
                     </div>
                     @endforeach
                 </div>
             </div>
-            @if(count($sub_varian) != 0)
-                <div class="form-group">
-                    <label><b>{{$produk->label_sub_varian}}</b></label><br>
-                    <div class="btn-group" role="group">
-                        @foreach($sub_varian as $sv)
-                        <div class="mr-4">
-                            <input required type="radio" class="btn-check" name="sub_varian" value="{{$sv->id_sub_varian}}" id="{{$sv->id_sub_varian}}" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="{{$sv->id_sub_varian}}">{{$sv->nama_sub_varian}}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
+            <div id="sub_varian" class="from-group">
+
+            </div>
         @endif
         <div class="form-group">
             <label for="jumlah"><b>Jumlah</b></label>
@@ -104,9 +96,24 @@
     </form>
     `);
  }
- function coba(){
-    var tes = $('#coba').val();
-    alert(tes);
+ function cek_sub_varian(id){
+    var token = '{{ csrf_token() }}';
+    produk_id = '{{$produk->id_produk}}';
+                var my_url = "{{url('/cek_sub_varian')}}";
+                var formData = {
+                    '_token': token,
+                    'varian_id' : id,
+                    'produk_id' : produk_id
+                };
+                $.ajax({
+                    method: 'POST',
+                    url: my_url,
+                    data: formData,
+                    success: function (data) {
+                        $('#sub_varian').html(data);
+                        console.log(data);
+                    }
+                });
  }
 
 </script>

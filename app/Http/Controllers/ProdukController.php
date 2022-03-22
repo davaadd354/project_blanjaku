@@ -65,12 +65,15 @@ class ProdukController extends Controller
     public function detail_produk($id){
         $produk = DB::table('produk as p')->where('p.id_produk',$id)->first();
         $produk_varian = DB::table('produk_varian as pv')->where('pv.produk_id',$id)
+                                                         ->where('sub_varian_id','>',0)
                                                          ->leftJoin('varian as v','pv.varian_id','v.id_varian')
                                                          ->leftJoin('sub_varian as sv','pv.sub_varian_id','sv.id_sub_varian')
                                                          ->get();
         $gambar = DB::table('gambar_produk')->where('produk_id',$id)->get();
         $varian = DB::table('varian')->where('produk_id',$id)->get();
         $sub_varian = DB::table('sub_varian')->where('produk_id',$id)->get();
+
+
         $data = [
             'produk' => $produk,
             'produk_varian' => $produk_varian,
@@ -79,11 +82,25 @@ class ProdukController extends Controller
             'sub_varian' => $sub_varian
         ];
 
+
+
         return view('produk.detail_produk',$data);
     }
 
     public function tampil_gambar_utama(Request $request){
         $gambar = DB::table('gambar_produk')->where('id_gambar',$request->id_gambar)->first();
         return view('produk.tampil_gambar_utama',compact('gambar'));
+    }
+
+    public function cek_sub_varian(Request $request){
+        $id_produk = $request->produk_id;
+        $id_varian = $request->varian_id;
+        $produk = DB::table('produk')->where('id_produk',$id_produk)->first();
+        $produk_varian = DB::table('produk_varian as pv')->leftJoin('varian as v','pv.varian_id','v.id_varian')
+                                                         ->leftJoin('sub_varian as sv','pv.sub_varian_id','sv.id_sub_varian')
+                                                         ->where('pv.produk_id',$id_produk)
+                                                         ->where('pv.varian_id',$id_varian)
+                                                         ->get();
+        return view('produk.tampil_sub_varian',compact('produk_varian','produk'));
     }
 }

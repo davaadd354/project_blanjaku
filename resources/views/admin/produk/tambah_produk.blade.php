@@ -47,7 +47,7 @@
             </div>
             <div class="mb-3">
                 <div class="form-group">
-                    <label for="harga_coret" class="form-label">Harga Coret</label>
+                    <label for="harga_coret" class="form-label">Harga Diskon</label>
                     <input required type="number" class="form-control" name="harga_coret" id="harga_coret">
                 </div>
             </div>

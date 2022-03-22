@@ -22,6 +22,19 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
+//Akun
+Route::get('akun_saya','HomeController@akun_saya')->name('akun_saya');
+Route::get('profil','HomeController@profil')->name('profil');
+Route::post('edit_profil','HomeController@edit_profil')->name('edit_profil');
+Route::post('data_tampil_profil','HomeController@data_tampil_profil')->name('data_tampil_profil');
+Route::post('data_tampil_alamat','HomeController@data_tampil_alamat')->name('data_tampil_alamat');
+Route::post('data_tampil_notif','HomeController@data_tampil_notif')->name('data_tampil_notif');
+Route::post('data_tampil_pesanan','HomeController@data_tampil_pesanan')->name('data_tampil_pesanan');
+Route::post('data_tampil_voucher','HomeController@data_tampil_voucher')->name('data_tampil_voucher');
+Route::post('tambah_alamat_user','HomeController@tambah_alamat_user')->name('tambah_alamat_user');
+Route::post('data_tampil_kabupaten','HomeController@data_tampil_kabupaten')->name('data_tampil_kabupaten');
+Route::post('data_tampil_kecamatan','HomeController@data_tampil_kecamatan')->name('data_tampil_kecamatan');
+Route::post('save_tambah_alamat','HomeController@save_tambah_alamat')->name('save_tambah_alamat');
 //Halaman Admin
 Route::group(['middleware' => ['auth','admin']], function () {
     Route::get('/Admin/dashboard','AdminController@dashboard')->name('dashboard');
@@ -65,6 +78,15 @@ Route::group(['middleware' => ['auth','admin']], function () {
   //Detail Produk
   Route::get('detail_produk/{id}','ProdukController@detail_produk')->name('detail_produk');
   Route::post('tampil_gambar_utama','ProdukController@tampil_gambar_utama')->name('tampil_gambar_utama');
+  Route::post('cek_sub_varian','ProdukController@cek_sub_varian')->name('cek_sub_varian');
+
+  //Keranjang Belanja
+  Route::post('input_tambah_produk_keranjang','KeranjangController@input_tambah_produk_keranjang')->name('input_tambah_produk_keranjang');
+  Route::get('keranjang_belanja','KeranjangController@keranjang_belanja')->name('keranjang_belanja');
+  Route::post('proses_pesanan','PesananController@proses_pesanan')->name('proses_pesanan');
+  Route::post('ubah_jumlah_produk_cart','KeranjangController@ubah_jumlah_produk_cart')->name('ubah_jumlah_produk_cart');
+  Route::post('hapus_produk_cart','KeranjangController@hapus_produk_cart')->name('hapus_produk_cart');
+  
 // Route::get('/posts', 'PostsController@index');
 // Route::post('/post/store', 'PostsController@store');
 // Route::get('/posts/{id?}', 'PostsController@show');
