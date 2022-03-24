@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth','admin']], function () {
     Route::post('hapus_sub_varian_produk','AdminController@hapus_sub_varian_produk')->name('hapus_sub_varian_produk');
     Route::post('hapus_gambar_produk','AdminController@hapus_gambar_produk')->name('hapus_gambar_produk');
 
+    Route::get('Admin/data_kurir','AdminController@data_kurir')->name('data_kurir');
   });
 
   //Kategori Produk
@@ -83,17 +84,14 @@ Route::group(['middleware' => ['auth','admin']], function () {
   //Keranjang Belanja
   Route::post('input_tambah_produk_keranjang','KeranjangController@input_tambah_produk_keranjang')->name('input_tambah_produk_keranjang');
   Route::get('keranjang_belanja','KeranjangController@keranjang_belanja')->name('keranjang_belanja');
-  Route::post('proses_pesanan','PesananController@proses_pesanan')->name('proses_pesanan');
+  Route::get('checkout','PesananController@checkout')->name('checkout');
   Route::post('ubah_jumlah_produk_cart','KeranjangController@ubah_jumlah_produk_cart')->name('ubah_jumlah_produk_cart');
   Route::post('hapus_produk_cart','KeranjangController@hapus_produk_cart')->name('hapus_produk_cart');
-  
-// Route::get('/posts', 'PostsController@index');
-// Route::post('/post/store', 'PostsController@store');
-// Route::get('/posts/{id?}', 'PostsController@show');
-// Route::post('/posts/update/{id?}', 'PostsController@update');
-// Route::get('/post/delete/{id?}', 'PostsController@destroy');
+  Route::post('tambah_alamat_pengiriman','PesananController@tambah_alamat_pengiriman')->name('tambah_alamat_pengiriman');
+  Route::post('tampil_alamat_pengiriman','PesananController@tampil_alamat_pengiriman')->name('tampil_alamat_pengiriman');
+  Route::post('tampil_layanan_ekspedisi','PesananController@tampil_layanan_ekspedisi')->name('tampil_layanan_ekspedisi');
+  //Route::post('posts/store', 'Api\PostsController@store');
 
-// Route::view('/{any}', 'app')->where('any', '.*');
 
 	
 Route::apiResource('/coba', 'Api\CobaController');

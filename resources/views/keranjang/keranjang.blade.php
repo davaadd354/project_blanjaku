@@ -4,7 +4,7 @@
 <h2 class="text-center">
     Keranjang Belanja
     <div class="container" id="data_keranjang">
-        <form action="{{url('proses_pesanan')}}" method="post">
+        <form action="{{url('checkout')}}" method="get">
             {{csrf_field()}}
         <div class="row my-5">
             @foreach($keranjang as $key => $k)
@@ -46,7 +46,7 @@
                                             @endif
                                         </div>
                                         <div class="col-md-3">
-                                            <input type="number" min="1" max="{{$stok_produk}}" onkeyup="ubah_jumlah('{{$k->harga_produk}}','{{$k->id_cart}}',this.value,'{{$key}}')" class="form-control " id="jumlah[{{$k->id_cart}}]" required value="{{$k->jumlah}}">
+                                            <input type="number" min="1" max="{{$stok_produk}}" onkeyup="ubah_jumlah('{{$k->harga_produk}}','{{$k->id_cart}}',this.value,'{{$key}}')" class="form-control " name="jumlah[{{$k->id_cart}}]" required value="{{$k->jumlah}}">
                                         </div>
                                         <div class="col-md-2">
                                             <span id="{{$k->id_cart}}" style="font-size: 14px;">{{"Rp " . number_format($k->harga_produk * $k->jumlah,2,',','.')}}</span>
