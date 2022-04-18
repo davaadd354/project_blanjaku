@@ -99,7 +99,7 @@
             let alamat = $('#alamat_lengkap').val();
             if(keterangan == '' || nama_penerima == '' || no_hp == '' || provinsi == '' || kabupaten == '' || kecamatan == '' || kode_pos == '' || alamat == ''){
                 alert('mohon lengkapi data alamat terlebih dahulu!');
-                $('#layanan_kurir').hide();
+                //$('#layanan_kurir').hide();
             }else{
                 var token = '{{ csrf_token() }}';
                     var my_url = "{{url('/tampil_layanan_ekspedisi')}}";
@@ -128,7 +128,7 @@
             }
         }else if(alamat == ''){
             alert('mohon lengkapi data alamat terlebih dahulu!');
-            $('#layanan_kurir').hide();
+            //$('#layanan_kurir').hide();
         }else{
             var token = '{{ csrf_token() }}';
             var destinasi = $('#destinasi_id').val();
