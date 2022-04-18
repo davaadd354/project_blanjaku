@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/coba-coba', function () {
+    return view('coba_pusher');
+});
 
 Auth::routes();
 
@@ -90,8 +90,14 @@ Route::group(['middleware' => ['auth','admin']], function () {
   Route::post('tambah_alamat_pengiriman','PesananController@tambah_alamat_pengiriman')->name('tambah_alamat_pengiriman');
   Route::post('tampil_alamat_pengiriman','PesananController@tampil_alamat_pengiriman')->name('tampil_alamat_pengiriman');
   Route::post('tampil_layanan_ekspedisi','PesananController@tampil_layanan_ekspedisi')->name('tampil_layanan_ekspedisi');
-  //Route::post('posts/store', 'Api\PostsController@store');
 
+
+  Route::post('posts/store', 'Api\PostsController@store');
+
+  Route::get('test', function () {
+    event(new App\Events\CobaPusher('lorem ipsum'));
+    return "Event has been sent!";
+});
 
 	
 Route::apiResource('/coba', 'Api\CobaController');

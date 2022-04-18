@@ -46,11 +46,7 @@ class PesananController extends Controller
 
         $keranjang_new = DB::table('cart as c')->leftJoin('produk as p','c.produk_id','p.id_produk')
                                                ->whereIn('c.id_cart',$cart) 
-                                               ->get(); 
-                                                                               
-     
-  ;
-
+                                               ->get();
         // $client = new Client(['verify' => 'C:\home\cacert.pem',
         //                       'headers' => ['key' => '44a97a674b7ec3d2d3059bad6bcd4d9c','content-type' => 'application/x-www-form-urlencoded'],
         //                       'form_params' => [
@@ -68,7 +64,29 @@ class PesananController extends Controller
         // $response = $client->request('POST','https://api.rajaongkir.com/starter/cost');
         // $coba = json_decode($response->getBody());
         // dd($coba->rajaongkir->results[0]->costs);
+        
 
+        // $client = new Client(['verify' => 'C:\home\cacert.pem',
+        //                       'headers' => ['content-type' => 'application/x-www-form-urlencoded'],
+        //                       'form_params' => [
+        //                           'judul' => 'Hello World',
+        //                           'teks' => 'lorem ipsum dolor sit amet'
+        //                       ]
+        //                     ]);
+        // $response = $client->request('POST','http://127.0.0.1:8080/posts/store');
+        // $coba = json_decode($response->getBody());
+        
+        $client = new Client(["verify" => "C:\home\cacert.pem"]);
+        // $options = [
+        //     'form_params' => [
+        //         'judul' => 'Hello World',
+        //         'teks' => 'lorem ipsum dolor sit amet'
+        //     ]
+        // ]; 
+        $response = $client->request('GET','https://rest.blanjaku.xyz/api/products');
+        $testing = $response->getBody();
+        dd(json_decode($testing));
+       
         $expedisi = DB::table('blw_kurir')->where('status',1)->get();
 
         $data = [

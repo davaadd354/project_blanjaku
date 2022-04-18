@@ -74,8 +74,11 @@ class KeranjangController extends Controller
                                                'p.label_sub_varian',
                                                'p.stok',
                                                'v.nama_varian',
-                                               'sv.nama_sub_varian'
+                                               'sv.nama_sub_varian',
+                                               //DB::raw('sum(c.jumlah) as jumlah_pcs')
+                                               DB::raw('c.harga_produk * c.jumlah as kontol')
                                            )
+                                      ->groupBy('c.id_cart')
                                       ->where('c.user_id',$user_id)
                                       ->where('c.status',0)
                                       ->get();
@@ -115,6 +118,7 @@ class KeranjangController extends Controller
                                            ->where('c.user_id',$user_id)
                                            ->where('c.status',0)
                                            ->get();
+        dd($keranjang);
         $total_harga = 0;
         foreach($keranjang as $k){
             $total_harga += $k->harga_produk;
