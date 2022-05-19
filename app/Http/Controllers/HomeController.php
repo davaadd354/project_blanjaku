@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\DB;
 use  Illuminate\Support\Facades\File;
 use  Illuminate\Support\Facades\Auth;
 use Image;
-use Gufy\Rajaongkir\Rajaongkir;
-use Gufy\Rajaongkir\Province;
-use Gufy\Rajaongkir\City;
-use Gufy\Rajaongkir\Cost;
-use Gufy\Rajaongkir\Waybill;
 class HomeController extends Controller
 {
     /**
@@ -39,6 +34,10 @@ class HomeController extends Controller
        $home_slider = DB::table('home_slider')->where('status',1)->get();
         $kategori = DB::table('kategori_produk')->get();
         return view('home',compact('home_slider','kategori'));
+    }
+
+    public function tetes(){
+        return view('tes_dulu');
     }
 
     public function akun_saya(){
@@ -190,4 +189,49 @@ class HomeController extends Controller
 
         return view('user.data_tampil_alamat',compact('daftar_alamat'));
     }
+
+    public function testing(){
+
+        $pesanan = DB::table('pesanan')->where('id',5)->first();
+        $bayar = DB::table('blw_pembayaran')->where('id',$pesanan->idbayar)->first();
+        $alamat = DB::table('alamat_user as a')->leftJoin('blw_prov as pr','a.id_provinsi','pr.id')
+                                                    ->leftJoin('blw_kab as kb','a.id_kabupaten','kb.id')
+                                                    ->leftJoin('blw_kec as kc','a.id_kecamatan','kc.id')
+                                                    ->where('id_alamat',$pesanan->alamat_id)
+                                                    ->select(
+                                                        'a.*',
+                                                        'pr.nama as provinsi',
+                                                        'kb.nama as kabupaten',
+                                                        'kc.nama as kecamatan'
+                                                    )
+                                                    ->first();
+                                                
+        $keranjang = DB::table('cart as c')->leftJoin('produk as p','c.produk_id','p.id_produk')
+                                               ->leftJoin('varian as v','c.varian_id','v.id_varian')
+                                               ->leftJoin('sub_varian as sv','c.sub_varian_id','sv.id_sub_varian')
+                                               ->leftJoin('gambar_produk as g', 'c.produk_id','g.produk_id')
+                                               ->select(
+                                                   'c.*',
+                                                   'p.nama_produk',
+                                                   'p.label_varian',
+                                                   'p.label_sub_varian',
+                                                   'p.stok',
+                                                   'v.nama_varian',
+                                                   'sv.nama_sub_varian',
+                                                   'g.nama_gambar',
+                                                   DB::raw('c.harga_produk * c.jumlah as harga_total')
+                                               )
+                                          ->groupBy('c.id_cart')
+                                          ->where('c.id_transaksi',$pesanan->id)
+                                          ->get();
+                                          
+        $data = [
+            'pesanan' => $pesanan,
+            'bayar' => $bayar,
+            'alamat' => $alamat,
+            'keranjang' => $keranjang
+        ];
+        return view('testing',$data);
+    }
+
 }

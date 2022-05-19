@@ -16,7 +16,6 @@ class AdminController extends Controller
     }
     public function data_slider(){
         $data_slider = DB::table('home_slider')->get();
-
         return DataTables::of($data_slider)
             ->addColumn('action',function($data){
                 $btn = '<button type="button" class="btn btn-danger text-white btn-sm" onclick="hapus_slider(' . $data->id_slider . ')" >

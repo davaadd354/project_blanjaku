@@ -14,14 +14,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/coba-coba', function () {
-    return view('coba_pusher');
-});
-
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-
+Route::get('/testing', 'HomeController@testing');
+Route::post('/testing_callback', 'HomeController@testing_callback');
 //Akun
 Route::get('akun_saya','HomeController@akun_saya')->name('akun_saya');
 Route::get('profil','HomeController@profil')->name('profil');
@@ -88,16 +85,24 @@ Route::group(['middleware' => ['auth','admin']], function () {
   Route::post('ubah_jumlah_produk_cart','KeranjangController@ubah_jumlah_produk_cart')->name('ubah_jumlah_produk_cart');
   Route::post('hapus_produk_cart','KeranjangController@hapus_produk_cart')->name('hapus_produk_cart');
   Route::post('tambah_alamat_pengiriman','PesananController@tambah_alamat_pengiriman')->name('tambah_alamat_pengiriman');
+  Route::post('save_tambah_alamat_pengiriman','PesananController@save_tambah_alamat_pengiriman')->name('save_tambah_alamat_pengiriman');
   Route::post('tampil_alamat_pengiriman','PesananController@tampil_alamat_pengiriman')->name('tampil_alamat_pengiriman');
   Route::post('tampil_layanan_ekspedisi','PesananController@tampil_layanan_ekspedisi')->name('tampil_layanan_ekspedisi');
-
+  Route::post('buat_pesanan','PesananController@buat_pesanan')->name('buat_pesanan');
+  Route::post('bayar','PesananController@bayar');
+  Route::post('bayar_callback','PesananController@bayar_callback');
 
   Route::post('posts/store', 'Api\PostsController@store');
 
-  Route::get('test', function () {
-    event(new App\Events\CobaPusher('lorem ipsum'));
-    return "Event has been sent!";
-});
 
 	
 Route::apiResource('/coba', 'Api\CobaController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('tetes','HomeController@tetes');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

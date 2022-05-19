@@ -18,7 +18,7 @@
                }
             ?>
             <div class="form-check">
-                <input  type="checkbox" name="cart[]" value="{{$k->id_cart}}" class="check_box">
+                <input type="checkbox" name="cart[]" value="{{$k->id_cart}}" class="check_box">
             </div>
                 <div class="col-12">
                     <div class="card mb-3">
