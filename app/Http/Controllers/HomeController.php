@@ -36,7 +36,7 @@ class HomeController extends Controller
         return view('home',compact('home_slider','kategori'));
     }
 
-    public function tetes(){
+    public function tes_pertama(){
         return view('tes_dulu');
     }
 
