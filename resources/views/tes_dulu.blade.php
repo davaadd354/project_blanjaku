@@ -1,2 +1,2 @@
 @extends('layouts.app')
-<h1>Hello world</h1>
+<h1>TES LUR</h1>

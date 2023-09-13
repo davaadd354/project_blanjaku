@@ -101,8 +101,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('tetes','HomeController@tetes');
+Route::get('tes_pertama','HomeController@tes_pertama');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
